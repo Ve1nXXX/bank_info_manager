@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html class="loginHtml">
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="css/public.css" media="all"/>
+    <link rel="stylesheet" href="css/animate.css">
+    <style>
+        .loginBody {
+            background: url('images/cj.jpg') no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .layui-form {
+            width: 600px !important;
+            padding-top: 50px !important;
+            box-shadow: 0 0 50px white !important;
+            left: 40% !important;
+        }
+
+    </style>
+</head>
+<body class="loginBody">
+<form class="layui-form animated rotateInDownLeft">
+    <div class="layui-form-item input-item">
+        <p style="text-align: center;font-size: 30px;position: relative;bottom: 20px;" class="">
+            银行账户管理系统</p>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12 ">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input userName" autocomplete="off" id="userName" lay-verify="required"
+                   placeholder="请输入手机号">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" class="layui-input password" autocomplete="off" id="password" lay-verify="required"
+                   placeholder="请输入密码">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户类型</label>
+        <div class="layui-input-block">
+            <select name="" id="loginType" lay-filter="mySelect" lay-verify="required">
+                <option value="0" selected>工作人员</option>
+                <option value="1">客户</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item" style="text-align: center;margin-top: 20px">
+        <button class="layui-btn" style="width: 100px;" lay-filter="login" lay-submit>登录</button>
+        <a class="layui-btn layui-btn-warm" style="width: 100px;" href="register.html">注册</a>
+    </div>
+</form>
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript" src="login.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "contentManagement": [
+    {
+      "title": "客户管理",
+      "icon": "&#xe634;",
+      "href": "page/admin/sysadmin/sysadminList1.html",
+      "spread": false
+    }, {
+      "title": "存取款记录",
+      "icon": "&#xe634;",
+      "href": "page/admin/syscunqurecord/syscunqurecordList.html",
+      "spread": false
+    }
+  ]
+}
+
+

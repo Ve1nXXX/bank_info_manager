@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>列表</title>
+    <link rel="stylesheet" href="../../../layui/css/layui.css" media="all">
+</head>
+<body>
+<blockquote class="layui-elem-quote quoteBox">
+    <form class="layui-form">
+        <div class="layui-inline">
+            <a class="layui-btn search_btn" data-type="reload">刷新</a>
+        </div>
+    </form>
+</blockquote>
+<table id="listTable" lay-filter="listTable"></table>
+<!--操作-->
+<script type="text/html" id="editBar">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改个人信息</a>
+</script>
+
+<script src="../../../layui/layui.js"></script>
+<script src="../../../js/common.js"></script>
+<script>
+    layui.use('table', function () {
+        let table = layui.table,
+            $ = layui.$,
+            form = layui.form
+        //加载数据表格
+        table.render({
+            id: 'listTable',
+            limit: 20,
+            height: $(document).height() - $('#listTable').offset().top - 20,
+            elem: '#listTable'
+            , url: app.serverUrl + '/sys_admin/getInfoListPageInfor?key=' + app.getLoginUser().id
+            , page: true
+            , cols: [[
+                {field: 'id', title: '序号'},
+                {field: 'phone', title: '手机号'},
+                {field: 'name', title: '姓名'},
+                {field: 'password', title: '密码'},
+                {field: 'money', title: '账户余额'},
+                {field: 'addtime', title: '添加时间'},
+                {title: '操作', minWidth: 175, templet: '#editBar', fixed: "right", align: "center"}
+            ]]
+        });
+        //搜索
+        $(".search_btn").on("click", function () {
+            let search = $(".searchVal").val()
+            table.reload("listTable", {
+                page: {
+                    curr: 1
+                },
+                where: {
+                    key: search
+                }
+            })
+        });
+        //删除或修改
+        table.on('tool(listTable)', function (obj) {
+            let event = obj.event;
+            if (event == 'del') {
+                layer.confirm('确定删除这条数据？', {icon: 3, title: '提示信息'}, function (index) {
+                    $.get(app.serverUrl + "/sys_admin/deleteInfoList/" + obj.data.id + "?token=" + app.getToken(), function (res) {
+                        if (res.code == 0) {
+                            layer.close(index);
+                            top.layer.msg("删除成功！", {icon: 1});
+                            table.reload("listTable", {
+                                page: {
+                                    curr: 1
+                                }
+                            })
+                        } else {
+                            layer.close(index);
+                            top.layer.msg(res.msg, {icon: 2});
+                        }
+                    })
+                });
+            } else {
+                add(obj.data)
+            }
+        });
+
+        function add(edit) {
+            let url = "sysadminAdd.html"
+            let index = layui.layer.open({
+                title: '修改',
+                type: 2,
+                content: url,
+                area: ['600px', '400px'],
+                success: function (layero, index) {
+                    let body = layui.layer.getChildFrame('body', index);
+                    let iframe = layero.find('iframe')[0].contentWindow;//此处可以调用子类定义方法
+                    if (edit) {
+                        body.find(".id").val(edit.id);
+                        body.find(".phone").val(edit.phone);
+                        body.find(".name").val(edit.name);
+                        body.find(".password").val(edit.password);
+                        body.find(".addtime").val(edit.addtime);
+                        iframe.setFullText("desc")
+                    }
+                    setTimeout(function () {
+                        layui.layer.tips('点击此处返回列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    }, 500)
+                }
+            })
+            // layui.layer.full(index);
+            window.sessionStorage.setItem("index", index);
+            $(window).on("resize", function () {
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+        }
+
+        //新增点击事件
+        $(".add_btn").click(function () {
+            add();
+        })
+
+    });
+</script>
+</body>
+</html>
